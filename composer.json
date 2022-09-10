@@ -1,0 +1,17 @@
+{
+  "name": "smfbbrand/letpay",
+  "description": "Let Pay php library",
+  "type": "library",
+  "license": "GPL-3.0-only",
+  "authors": [
+    {
+      "name": "jjtortosa",
+      "email": "juanjo.tortosa@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4.0",
+    "ext-json": "*",
+    "ext-curl": "*"
+  }
+}
