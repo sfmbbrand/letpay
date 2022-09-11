@@ -9,6 +9,9 @@
       "email": "juanjo.tortosa@gmail.com"
     }
   ],
+  "autoload": {
+    "psr-4": {"LetPay\\": "src"}
+  },
   "require": {
     "php": ">=7.4.0",
     "ext-json": "*",
