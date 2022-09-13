@@ -123,7 +123,8 @@ class LetPayClient
             ],
             'data' => json_encode($params)
         ],
-            LetPayPixResponse::class
+            LetPayPixResponse::class,
+            false
         );
     }
 
