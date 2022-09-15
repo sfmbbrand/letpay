@@ -93,8 +93,9 @@ class LetPayClient
 
     /**
      * @throws Exception
+     * @return LetPayBoletoResponse | LetPayErrorResponse
      */
-    public function simpleBoleto(LetPaySimpleBoletoParameters $params): LetPayBoletoResponse
+    public function simpleBoleto(LetPaySimpleBoletoParameters $params)
     {
         return $this->_send([
             'path' => 'boleto/simple',
@@ -111,8 +112,9 @@ class LetPayClient
 
     /**
      * @throws Exception
+     * @return LetPayPixResponse | LetPayErrorResponse
      */
-    public function simplePix(LetPaySimplePixParameters $params): LetPayPixResponse
+    public function simplePix(LetPaySimplePixParameters $params)
     {
         return $this->_send([
             'path' => 'pix/simple',
