@@ -12,7 +12,7 @@
 Via Composer
 
 ``` bash
-$ composer require smfbbrand/letpay
+$ composer require sfmbbrand/letpay
 ```
 
 ## Usage
