@@ -10,7 +10,7 @@ class LetPayBoletoResponse
     public string $payment_token;
     public string $payment_status;
     public string $error;
-    public string $customer_id;
+    public ?string $customer_id;
     public string $boleto_html;
     public string $boleto_code;
     public string $boleto_duedate; // (date: YYYY-MM-DD)
