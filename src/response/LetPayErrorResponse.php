@@ -14,8 +14,10 @@ class LetPayErrorResponse
 
     public function __construct(object $json)
     {
-        foreach ($json as $k => $v)
-            $this->$k = $v;
+        foreach ($json as $k => $v) {
+            if (!is_null($v))
+                $this->$k = $v;
+        }
     }
 
 }
