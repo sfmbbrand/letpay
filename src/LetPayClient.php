@@ -32,7 +32,6 @@ class LetPayClient
         $this->contract_id = $contract_id;
         $this->sandbox = $sandbox;
         $this->url = $sandbox ? 'https://sandbox.api.letpay.io/' : 'https://api.letpay.io/';
-
     }
 
     /**
@@ -71,14 +70,10 @@ class LetPayClient
      */
     public function processPayment(LetPayCreatePaymentResponse $p_response, string $method): LetPayPixResponse
     {
-        switch ($method) {
-            case 'PIX':
-                $class = LetPayPixResponse::class;
-                break;
-
-            default:
-                throw new Exception('Method ' . $method . ' -> @todo');
-        }
+        $class = match ($method) {
+            'PIX' => LetPayPixResponse::class,
+            default => throw new Exception('Method ' . $method . ' -> @todo'),
+        };
 
         return $this->_send([
             'path' => 'payment/' . $p_response->payment->payment_token . '/sendPayment',
@@ -92,10 +87,11 @@ class LetPayClient
     }
 
     /**
+     * @param LetPaySimpleBoletoParameters $params
+     * @return LetPayBoletoResponse|LetPayErrorResponse|null
      * @throws Exception
-     * @return LetPayBoletoResponse | LetPayErrorResponse
      */
-    public function simpleBoleto(LetPaySimpleBoletoParameters $params)
+    public function simpleBoleto(LetPaySimpleBoletoParameters $params): LetPayBoletoResponse|LetPayErrorResponse|null
     {
         return $this->_send([
             'path' => 'boleto/simple',
@@ -111,13 +107,35 @@ class LetPayClient
     }
 
     /**
+     * @param LetPaySimplePixParameters $params
+     * @return LetPayErrorResponse|LetPayPixResponse|null
      * @throws Exception
-     * @return LetPayPixResponse | LetPayErrorResponse
      */
-    public function simplePix(LetPaySimplePixParameters $params)
+    public function simplePix(LetPaySimplePixParameters $params): LetPayErrorResponse|LetPayPixResponse|null
     {
         return $this->_send([
             'path' => 'pix/simple',
+            'headers' => [
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'X-Auth-Token: ' . $this->_getToken()
+            ],
+            'data' => json_encode($params)
+        ],
+            LetPayPixResponse::class,
+            false
+        );
+    }
+
+    /**
+     * @param LetPaySimplePixParameters $params
+     * @return LetPayErrorResponse|LetPayPixResponse|null
+     * @throws Exception
+     */
+    public function simpleOxxo(LetPaySimplePixParameters $params): LetPayErrorResponse|LetPayPixResponse|null
+    {
+        return $this->_send([
+            'path' => 'oxxo/simple',
             'headers' => [
                 'Accept: application/json',
                 'Content-Type: application/json',
