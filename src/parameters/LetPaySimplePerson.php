@@ -13,7 +13,6 @@ class LetPaySimplePerson
     {
         foreach ($params as $k => $v)
             $this->$k = $v;
-
     }
 
 }

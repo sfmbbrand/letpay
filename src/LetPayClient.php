@@ -6,6 +6,7 @@ namespace LetPay;
 use Exception;
 use LetPay\parameters\LetPayPaymentParameters;
 use LetPay\parameters\LetPaySimpleBoletoParameters;
+use LetPay\parameters\LetPaySimpleOxxoParameters;
 use LetPay\parameters\LetPaySimplePixParameters;
 use LetPay\response\LetPayBoletoResponse;
 use LetPay\response\LetPayContractResponse;
@@ -128,11 +129,11 @@ class LetPayClient
     }
 
     /**
-     * @param LetPaySimplePixParameters $params
+     * @param LetPaySimpleOxxoParameters $params
      * @return LetPayErrorResponse|LetPayPixResponse|null
      * @throws Exception
      */
-    public function simpleOxxo(LetPaySimplePixParameters $params): LetPayErrorResponse|LetPayPixResponse|null
+    public function simpleOxxo(LetPaySimpleOxxoParameters $params): LetPayErrorResponse|LetPayPixResponse|null
     {
         return $this->_send([
             'path' => 'oxxo/simple',
