@@ -24,7 +24,7 @@ class LetPayClient
     private string $user;
     private string $password;
     public string $contract_id;
-    private ?string $token = null;
+    public ?string $token = null;
 
     public function __construct(string $user, string $password, string $contract_id, bool $sandbox = false)
     {

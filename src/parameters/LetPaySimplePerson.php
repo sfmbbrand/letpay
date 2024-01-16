@@ -7,7 +7,7 @@ class LetPaySimplePerson
     public string $full_name;
     public string $email;
     public string $birthdate;
-    public string $tax_id;
+    public ?string $tax_id;
 
     public function __construct(array $params)
     {
