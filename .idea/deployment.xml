@@ -6,7 +6,7 @@
       <paths name="eg-mc-dev2">
         <serverdata>
           <mappings>
-            <mapping deploy="/var/www/dev2-eg-mc/frontend/vendor/sfmbbrand/letpay" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/var/www/dev2-eg-mc/privada/vendor/sfmbbrand/letpay" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

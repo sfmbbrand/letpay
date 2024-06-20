@@ -6,7 +6,8 @@ class LetPayPaymentStatusResponse
 {
     public string $refresh_token;
     public string $paymentToken;
-    public string $paymentStatus;
+    public string $paymentStatus; // @deprecated 31-01-2025
+    public string $transactionStatus; // PAID | DISPUTE | PRE_AUTHORIZED | PROCESSING | CANCELED | DECLINED | REFUNDED
     public string $createdAt;
     public string $currency;
     public float $amount_received;
