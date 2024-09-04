@@ -7,11 +7,13 @@ use Exception;
 use LetPay\parameters\LetPayPaymentParameters;
 use LetPay\parameters\LetPaySimpleBoletoParameters;
 use LetPay\parameters\LetPaySimpleOxxoParameters;
+use LetPay\parameters\LetPaySimplePaycashParameters;
 use LetPay\parameters\LetPaySimplePixParameters;
 use LetPay\response\LetPayBoletoResponse;
 use LetPay\response\LetPayContractResponse;
 use LetPay\response\LetPayCreatePaymentResponse;
 use LetPay\response\LetPayErrorResponse;
+use LetPay\response\LetPayPaycashResponse;
 use LetPay\response\LetPayPaymentStatusResponse;
 use LetPay\response\LetPayPixResponse;
 use LetPay\response\LetPayTokenResponse;
@@ -145,6 +147,27 @@ class LetPayClient
             'data' => json_encode($params)
         ],
             LetPayPixResponse::class,
+            false
+        );
+    }
+
+    /**
+     * @param LetPaySimplePaycashParameters $params
+     * @return LetPayErrorResponse|LetPayPaycashResponse|null
+     * @throws Exception
+     */
+    public function simplePaycash(LetPaySimplePaycashParameters $params): LetPayErrorResponse|LetPayPaycashResponse|null
+    {
+        return $this->_send([
+            'path' => 'paycash/simple',
+            'headers' => [
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'X-Auth-Token: ' . $this->_getToken()
+            ],
+            'data' => json_encode($params)
+        ],
+            LetPayPaycashResponse::class,
             false
         );
     }
