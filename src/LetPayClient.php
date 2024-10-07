@@ -8,14 +8,18 @@ use LetPay\parameters\LetPayPaymentParameters;
 use LetPay\parameters\LetPaySimpleBoletoParameters;
 use LetPay\parameters\LetPaySimpleOxxoParameters;
 use LetPay\parameters\LetPaySimplePaycashParameters;
+use LetPay\parameters\LetPaySimplePaynetParameters;
 use LetPay\parameters\LetPaySimplePixParameters;
+use LetPay\parameters\LetPaySimpleSpeiParameters;
 use LetPay\response\LetPayBoletoResponse;
 use LetPay\response\LetPayContractResponse;
 use LetPay\response\LetPayCreatePaymentResponse;
 use LetPay\response\LetPayErrorResponse;
 use LetPay\response\LetPayPaycashResponse;
 use LetPay\response\LetPayPaymentStatusResponse;
+use LetPay\response\LetPayPaynetResponse;
 use LetPay\response\LetPayPixResponse;
+use LetPay\response\LetPaySpeiResponse;
 use LetPay\response\LetPayTokenResponse;
 
 
@@ -168,6 +172,48 @@ class LetPayClient
             'data' => json_encode($params)
         ],
             LetPayPaycashResponse::class,
+            false
+        );
+    }
+
+    /**
+     * @param LetPaySimplePaynetParameters $params
+     * @return LetPayErrorResponse|LetPayPaynetResponse|null
+     * @throws Exception
+     */
+    public function simplePaynet(LetPaySimplePaynetParameters $params): LetPayErrorResponse|LetPayPaynetResponse|null
+    {
+        return $this->_send([
+            'path' => 'paynet/simple',
+            'headers' => [
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'X-Auth-Token: ' . $this->_getToken()
+            ],
+            'data' => json_encode($params)
+        ],
+            LetPayPaynetResponse::class,
+            false
+        );
+    }
+
+    /**
+     * @param LetPaySimpleSpeiParameters $params
+     * @return LetPayErrorResponse|LetPaySpeiResponse|null
+     * @throws Exception
+     */
+    public function simpleSpei(LetPaySimpleSpeiParameters $params): LetPayErrorResponse|LetPaySpeiResponse|null
+    {
+        return $this->_send([
+            'path' => 'spei/simple',
+            'headers' => [
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'X-Auth-Token: ' . $this->_getToken()
+            ],
+            'data' => json_encode($params)
+        ],
+            LetPaySpeiResponse::class,
             false
         );
     }
