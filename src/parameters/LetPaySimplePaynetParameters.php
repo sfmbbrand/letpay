@@ -10,7 +10,7 @@ class LetPaySimplePaynetParameters
     public string $reference_id;
     public string $notification_url;
     public LetPaySimplePerson $person;
-    public LetPaySimplePaycashPaymentParameters $payment;
+    public LetPaySimplePaynetPaymentParameters $payment;
 
     // Optional
     public string $asset = 'MXN'; // BRL, USD, EUR

@@ -25,20 +25,22 @@ use LetPay\response\LetPayTokenResponse;
 
 class LetPayClient
 {
-    public bool $sandbox;
     public string $url;
-    private string $user;
-    private string $password;
+    private ?string $apiKey;
+    private ?string $apiSecret;
+    private ?string $username;
+    private ?string $password;
     public string $contract_id;
     public ?string $token = null;
 
-    public function __construct(string $user, string $password, string $contract_id, bool $sandbox = false)
+    public function __construct(object $params, public bool $sandbox = false)
     {
-        $this->user = $user;
-        $this->password = $password;
-        $this->contract_id = $contract_id;
-        $this->sandbox = $sandbox;
-        $this->url = $sandbox ? 'https://sandbox.api.letpay.io/' : 'https://api.letpay.io/';
+        $this->url = $this->sandbox ? 'https://sandbox.api.letpay.io/' : 'https://api.letpay.io/';
+        $this->apiKey = $params->apiKey ?? null;
+        $this->apiSecret = $params->apiSecret ?? null;
+        $this->username = $params->username ?? null;
+        $this->password = $params->password ?? null;
+        $this->contract_id = $params->contract_id ?? null;
     }
 
     /**
@@ -266,13 +268,16 @@ class LetPayClient
     private function _getToken(): string
     {
         if (!$this->token) {
+            $query = isset($this->apiKey)
+                ? ['apiKey' => $this->apiKey, 'apiSecret' => $this->apiSecret]
+                : ['username' => $this->username, 'password' => $this->password];
             $response = $this->_send([
                 'path' => 'auth',
                 'headers' => [
                     'Accept: application/json',
                     'Content-Type: application/x-www-form-urlencoded'
                 ],
-                'data' => http_build_query(['username' => $this->user, 'password' => $this->password])
+                'data' => http_build_query($query)
             ],
                 LetPayTokenResponse::class
             );
