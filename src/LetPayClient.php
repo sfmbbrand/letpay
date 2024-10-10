@@ -4,6 +4,7 @@
 namespace LetPay;
 
 use Exception;
+use LetPay\parameters\LetPayContractIds;
 use LetPay\parameters\LetPayPaymentParameters;
 use LetPay\parameters\LetPaySimpleBoletoParameters;
 use LetPay\parameters\LetPaySimpleOxxoParameters;
@@ -26,11 +27,11 @@ use LetPay\response\LetPayTokenResponse;
 class LetPayClient
 {
     public string $url;
+    public LetPayContractIds $contract_ids;
     private ?string $apiKey;
     private ?string $apiSecret;
     private ?string $username;
     private ?string $password;
-    public string $contract_id;
     public ?string $token = null;
 
     public function __construct(object $params, public bool $sandbox = false)
@@ -40,16 +41,16 @@ class LetPayClient
         $this->apiSecret = $params->apiSecret ?? null;
         $this->username = $params->username ?? null;
         $this->password = $params->password ?? null;
-        $this->contract_id = $params->contract_id ?? null;
+        $this->contract_ids = new LetPayContractIds($params->contract_ids);
     }
 
     /**
      * @throws Exception
      */
-    public function getContractId(): LetPayContractResponse
+    public function getContractsList(): LetPayContractResponse
     {
         return $this->_send([
-            'path' => 'merchant/contracts',
+            'path' => 'merchant/contracts/list',
             'headers' => [
                 'Accept: application/json',
                 'X-Auth-Token: ' . $this->_getToken()
@@ -102,6 +103,8 @@ class LetPayClient
      */
     public function simpleBoleto(LetPaySimpleBoletoParameters $params): LetPayBoletoResponse|LetPayErrorResponse|null
     {
+        $this->_ensureContractId('boleto', $params);
+
         return $this->_send([
             'path' => 'boleto/simple',
             'headers' => [
@@ -122,6 +125,8 @@ class LetPayClient
      */
     public function simplePix(LetPaySimplePixParameters $params): LetPayErrorResponse|LetPayPixResponse|null
     {
+        $this->_ensureContractId('pix', $params);
+
         return $this->_send([
             'path' => 'pix/simple',
             'headers' => [
@@ -143,6 +148,8 @@ class LetPayClient
      */
     public function simpleOxxo(LetPaySimpleOxxoParameters $params): LetPayErrorResponse|LetPayPixResponse|null
     {
+        $this->_ensureContractId('oxxo', $params);
+
         return $this->_send([
             'path' => 'oxxo/simple',
             'headers' => [
@@ -164,6 +171,8 @@ class LetPayClient
      */
     public function simplePaycash(LetPaySimplePaycashParameters $params): LetPayErrorResponse|LetPayPaycashResponse|null
     {
+        $this->_ensureContractId('paycash', $params);
+
         return $this->_send([
             'path' => 'paycash/simple',
             'headers' => [
@@ -185,6 +194,8 @@ class LetPayClient
      */
     public function simplePaynet(LetPaySimplePaynetParameters $params): LetPayErrorResponse|LetPayPaynetResponse|null
     {
+        $this->_ensureContractId('paynet', $params);
+//vdp($this->apiKey, $this->apiSecret, $params->contract_id);
         return $this->_send([
             'path' => 'paynet/simple',
             'headers' => [
@@ -206,6 +217,8 @@ class LetPayClient
      */
     public function simpleSpei(LetPaySimpleSpeiParameters $params): LetPayErrorResponse|LetPaySpeiResponse|null
     {
+        $this->_ensureContractId('spei', $params);
+
         return $this->_send([
             'path' => 'spei/simple',
             'headers' => [
@@ -312,6 +325,13 @@ class LetPayClient
         curl_close($curl);
 
         return json_decode($curl_response) ?: null;
+    }
+
+    private function _ensureContractId(string $method, object $params): void
+    {
+        if (empty($params->contract_id)) {
+            $params->contract_id = $this->contract_ids->{$method};
+        }
     }
 
 }

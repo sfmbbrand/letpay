@@ -23,6 +23,5 @@ class LetPaySimplePaycashParameters
     {
         foreach ($params as $k => $v)
             $this->$k = $v;
-
     }
 }
