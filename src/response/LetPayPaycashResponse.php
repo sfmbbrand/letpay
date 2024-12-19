@@ -6,19 +6,18 @@ use LetPay\parameters\LetPayTotals;
 
 class LetPayPaycashResponse
 {
-    public string $refresh_token;
-    public string $payment_token;
-    public string $payment_status;
-    public string $error;
-    public ?string $customer_id;
-    public string $paycash_html;
-    public string $paycash_code;
-    public string $paycash_duedate; // (date: YYYY-MM-DD)
-    public float $paycash_amount;
-    public string $pix_qr_code;
-    public string $pix_code;
-    public LetPayTotals $totals;
+    public string $amount;
+    public string $barcode;
+    public string $barcode_png_gzip_base_64;
     public object $customer_fees;
+    public string $instructions_link;
+    public string $payment_status;
+    public string $payment_token;
+    public string $reference_id;
+    public string $refresh_token;
+    public LetPayTotals $totals;
+    public string $transaction_status;
+    public string $error;
 
     public function __construct(object $json)
     {
