@@ -12,9 +12,10 @@ class LetPayErrorResponse
     public string $timestamp;
     public ?int $status; // 422 => Unprocessable Entity, 500 => Internal Server Error, 502 => Bad Gateway
     public string $error = '';
+    /** @var LetPayErrorResponseItem[] $errors */
     public array $errors = [];
     public string $exception;
-    public string $message = '';
+    public string $message = ''; // @deprecated
     public string $path;
     public string $refresh_token;
 
@@ -28,6 +29,11 @@ class LetPayErrorResponse
         foreach ($json->errors as $error) {
             $this->errors[] = new LetPayErrorResponseItem($error);
         }
+    }
+    
+    public function getMessage(): string
+    {
+        return $this->error . " · " . ($this->$errors[0]?->description ?? 'Unknown error');
     }
 
 }

@@ -267,7 +267,7 @@ class LetPayClient
             $resp = new LetPayErrorResponse($response);
 
             if ($throw_error)
-                throw new Exception($resp->error . ' · ' . $resp->message);
+                throw new Exception($resp->getMessage());
 
             return $resp;
         }
