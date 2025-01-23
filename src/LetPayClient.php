@@ -10,6 +10,7 @@ use LetPay\parameters\LetPaySimpleBoletoParameters;
 use LetPay\parameters\LetPaySimpleOxxoParameters;
 use LetPay\parameters\LetPaySimplePaycashParameters;
 use LetPay\parameters\LetPaySimplePaynetParameters;
+use LetPay\parameters\LetPaySimplePicPayParameters;
 use LetPay\parameters\LetPaySimplePixParameters;
 use LetPay\parameters\LetPaySimpleSpeiParameters;
 use LetPay\response\LetPayBoletoResponse;
@@ -19,6 +20,7 @@ use LetPay\response\LetPayErrorResponse;
 use LetPay\response\LetPayPaycashResponse;
 use LetPay\response\LetPayPaymentStatusResponse;
 use LetPay\response\LetPayPaynetResponse;
+use LetPay\response\LetPayPicPayResponse;
 use LetPay\response\LetPayPixResponse;
 use LetPay\response\LetPaySpeiResponse;
 use LetPay\response\LetPayTokenResponse;
@@ -229,6 +231,29 @@ class LetPayClient
             'data' => json_encode($params)
         ],
             LetPaySpeiResponse::class,
+            false
+        );
+    }
+
+    /**
+     * @param LetPaySimplePicPayParameters $params
+     * @return LetPayErrorResponse|LetPayPicPayResponse|null
+     * @throws Exception
+     */
+    public function simplePicPay(LetPaySimplePicPayParameters $params): LetPayErrorResponse|LetPayPicPayResponse|null
+    {
+        $this->_ensureContractId('picpay', $params);
+
+        return $this->_send([
+            'path' => 'picpay/simple',
+            'headers' => [
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'X-Auth-Token: ' . $this->_getToken()
+            ],
+            'data' => json_encode($params)
+        ],
+            LetPayPicPayResponse::class,
             false
         );
     }
