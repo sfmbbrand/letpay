@@ -33,7 +33,7 @@ class LetPayErrorResponse
     
     public function getMessage(): string
     {
-        return $this->error . " · " . ($this->$errors[0]?->description ?? 'Unknown error');
+        return $this->error . " · " . ($this->errors[0]?->description ?? 'Unknown error');
     }
 
 }
