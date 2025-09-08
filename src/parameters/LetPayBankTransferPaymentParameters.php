@@ -13,6 +13,9 @@ class LetPayBankTransferPaymentParameters
 
     public function __construct(array $params)
     {
+        if (isset($params['bank_transfer']))
+            $params['bank_transfer'] = new LetPayBankTransferPaymentBankTransferParameters($params['bank_transfer']);
+
         foreach ($params as $k => $v)
             $this->$k = $v;
     }

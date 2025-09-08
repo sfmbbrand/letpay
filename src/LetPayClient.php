@@ -40,7 +40,7 @@ class LetPayClient
 
     public function __construct(object $params, public bool $sandbox = false)
     {
-        $this->url = $this->sandbox ? 'https://sandbox.api.letpay.io/' : 'https://api.letpay.io/';
+        $this->url = $this->sandbox ? 'https://api-sandbox.letpay.io/' : 'https://api.letpay.io/';
         $this->apiKey = $params->apiKey ?? null;
         $this->apiSecret = $params->apiSecret ?? null;
         $this->username = $params->username ?? null;
@@ -199,7 +199,7 @@ class LetPayClient
     public function simplePaynet(LetPaySimplePaynetParameters $params): LetPayErrorResponse|LetPayPaynetResponse|null
     {
         $this->_ensureContractId('paynet', $params);
-//vdp($this->apiKey, $this->apiSecret, $params->contract_id);
+
         return $this->_send([
             'path' => 'paynet/simple',
             'headers' => [
