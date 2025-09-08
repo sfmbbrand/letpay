@@ -10,6 +10,7 @@ class LetPayContractIds
     public string $paycash;
     public string $spei;
     public string $paynet;
+    public string $bankTransfer;
 
     public function __construct(object $params)
     {

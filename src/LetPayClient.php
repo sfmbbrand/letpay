@@ -4,6 +4,7 @@
 namespace LetPay;
 
 use Exception;
+use LetPay\parameters\LetPayBankTransferParameters;
 use LetPay\parameters\LetPayContractIds;
 use LetPay\parameters\LetPayPaymentParameters;
 use LetPay\parameters\LetPaySimpleBoletoParameters;
@@ -13,6 +14,7 @@ use LetPay\parameters\LetPaySimplePaynetParameters;
 use LetPay\parameters\LetPaySimplePicPayParameters;
 use LetPay\parameters\LetPaySimplePixParameters;
 use LetPay\parameters\LetPaySimpleSpeiParameters;
+use LetPay\response\LetPayBankTransferResponse;
 use LetPay\response\LetPayBoletoResponse;
 use LetPay\response\LetPayContractResponse;
 use LetPay\response\LetPayCreatePaymentResponse;
@@ -256,6 +258,25 @@ class LetPayClient
             LetPayPicPayResponse::class,
             false
         );
+    }
+
+    public function bankTransfer(LetPayBankTransferParameters $params): LetPayBankTransferResponse|LetPayErrorResponse
+    {
+        $this->_ensureContractId('bankTransfer', $params);
+
+        return $this->_send([
+            'path' => 'bankTransfer/simple',
+            'headers' => [
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'X-Auth-Token: ' . $this->_getToken()
+            ],
+            'data' => json_encode($params)
+        ],
+            LetPayBankTransferResponse::class,
+            false
+        );
+
     }
 
     /**
