@@ -15,6 +15,7 @@ class LetPayBankTransferParameters
     public ?string $ip_address; // IPv4/IPv6
     public ?string $return_url;
     public ?object $extra_data;
+    public ?LetPayAddress $address;
 
     public function __construct(array $params)
     {
