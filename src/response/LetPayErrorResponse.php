@@ -26,6 +26,10 @@ class LetPayErrorResponse
                 $this->$k = $v;
         }
 
+        if (!isset($json->errors) || !is_array($json->errors)) {
+            return;
+        }
+        
         foreach ($json->errors as $error) {
             $this->errors[] = new LetPayErrorResponseItem($error);
         }
