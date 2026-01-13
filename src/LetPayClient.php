@@ -4,7 +4,6 @@
 namespace LetPay;
 
 use Exception;
-use LetPay\parameters\LetPayBankTransferParameters;
 use LetPay\parameters\LetPayContractIds;
 use LetPay\parameters\LetPayPaymentParameters;
 use LetPay\parameters\LetPaySimpleBoletoParameters;
@@ -260,7 +259,10 @@ class LetPayClient
         );
     }
 
-    public function bankTransfer(LetPayBankTransferParameters $params): LetPayBankTransferResponse|LetPayErrorResponse
+    /**
+     * @throws Exception
+     */
+    public function bankTransfer($params): LetPayBankTransferResponse|LetPayErrorResponse
     {
         $this->_ensureContractId('bankTransfer', $params);
 
