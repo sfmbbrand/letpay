@@ -13,7 +13,9 @@ use LetPay\parameters\LetPaySimplePaynetParameters;
 use LetPay\parameters\LetPaySimplePicPayParameters;
 use LetPay\parameters\LetPaySimplePixParameters;
 use LetPay\parameters\LetPaySimpleSpeiParameters;
+use LetPay\parameters\LetPaySimpleNequiParameters;
 use LetPay\response\LetPayBankTransferResponse;
+use LetPay\response\LetPayNequiResponse;
 use LetPay\response\LetPayBoletoResponse;
 use LetPay\response\LetPayContractResponse;
 use LetPay\response\LetPayCreatePaymentResponse;
@@ -279,6 +281,31 @@ class LetPayClient
             false
         );
 
+    }
+
+    /**
+     * Creates a Nequi payment (Colombia).
+     *
+     * @param LetPaySimpleNequiParameters $params
+     * @return LetPayErrorResponse|LetPayNequiResponse|null
+     * @throws Exception
+     */
+    public function simpleNequi(LetPaySimpleNequiParameters $params): LetPayErrorResponse|LetPayNequiResponse|null
+    {
+        $this->_ensureContractId('nequi', $params);
+
+        return $this->_send([
+            'path' => 'nequi/simple',
+            'headers' => [
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'X-Auth-Token: ' . $this->_getToken()
+            ],
+            'data' => json_encode($params)
+        ],
+            LetPayNequiResponse::class,
+            false
+        );
     }
 
     /**
