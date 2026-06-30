@@ -14,8 +14,10 @@ use LetPay\parameters\LetPaySimplePicPayParameters;
 use LetPay\parameters\LetPaySimplePixParameters;
 use LetPay\parameters\LetPaySimpleSpeiParameters;
 use LetPay\parameters\LetPaySimpleNequiParameters;
+use LetPay\parameters\LetPaySimpleMachParameters;
 use LetPay\response\LetPayBankTransferResponse;
 use LetPay\response\LetPayNequiResponse;
+use LetPay\response\LetPayMachResponse;
 use LetPay\response\LetPayBoletoResponse;
 use LetPay\response\LetPayContractResponse;
 use LetPay\response\LetPayCreatePaymentResponse;
@@ -304,6 +306,31 @@ class LetPayClient
             'data' => json_encode($params)
         ],
             LetPayNequiResponse::class,
+            false
+        );
+    }
+
+    /**
+     * Creates a MACH payment (Chile).
+     *
+     * @param LetPaySimpleMachParameters $params
+     * @return LetPayErrorResponse|LetPayMachResponse|null
+     * @throws Exception
+     */
+    public function simpleMach(LetPaySimpleMachParameters $params): LetPayErrorResponse|LetPayMachResponse|null
+    {
+        $this->_ensureContractId('mach', $params);
+
+        return $this->_send([
+            'path' => 'mach/simple',
+            'headers' => [
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'X-Auth-Token: ' . $this->_getToken()
+            ],
+            'data' => json_encode($params)
+        ],
+            LetPayMachResponse::class,
             false
         );
     }

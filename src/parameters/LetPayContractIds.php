@@ -13,6 +13,7 @@ class LetPayContractIds
     public string $picpay = '';
     public string $bankTransfer = '';
     public string $nequi = '';
+    public string $mach = '';
 
     public function __construct(object $params)
     {
